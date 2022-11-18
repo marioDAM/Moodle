@@ -26,7 +26,7 @@ public class TeacherService {
         return repository.findAll();
     }
 
-    public Teacher getTeacherById(Long id){
-        return repository.getReferenceById(id);
-    }
+//    public Teacher getTeacherById(Long id){
+//        return repository.getReferenceById(id);
+//    }
 }

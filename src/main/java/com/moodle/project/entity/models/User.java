@@ -1,4 +1,4 @@
-package com.moodle.project.entity;
+package com.moodle.project.entity.models;
 
 import com.moodle.project.enums.Role;
 import lombok.Data;

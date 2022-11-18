@@ -1,6 +1,5 @@
 package com.moodle.project.entity.models;
 
-import com.moodle.project.entity.User;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 

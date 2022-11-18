@@ -39,8 +39,9 @@ public class StudentService {
         alumno.setTeachers(student.getTeachers());
         return repository.save(alumno);
     }
-    public Student deleteStudent(Long id){
-         repository.deleteById(id);
+
+    public Student deleteStudent(Long id) {
+        repository.deleteById(id);
         return null;
     }
 
