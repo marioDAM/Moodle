@@ -51,6 +51,7 @@ public class Usuario implements UserDetails {
 
     @Email(regexp = ".*@.*\\..*", message = "Email debe ser un email valido")
     private String email;
+
     @NotNull(message = "Dni no puede ser nulo")
     private String dni;
 
@@ -68,7 +69,9 @@ public class Usuario implements UserDetails {
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     private Date leavingDate;
+
     private String dischargedBy;
+
     private String modifiedBy;
 
     private String subjects;

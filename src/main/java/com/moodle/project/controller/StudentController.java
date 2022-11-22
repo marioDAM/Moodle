@@ -3,29 +3,34 @@ package com.moodle.project.controller;
 import com.moodle.project.dto.NewStudentDTO;
 import com.moodle.project.entity.models.Student;
 import com.moodle.project.service.StudentService;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
- * Es el que maneja las solicitudes de la API, al servicio para
- * que posteriormente podamos verla
+ * Clase controladora en referencia al alumno donde definiremos las rutas
+ * que veremos en el navegador
+ *
+ * @author Mario Valverde
  */
 @RestController
 @RequestMapping(path = "/**")
 public class StudentController {
+    /**
+     * Campo de la clase encargado de llamar al servicio para tratar los datos con la base de datos
+     */
     private StudentService service;
-
-//    @Bean
-//    public BCryptPasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
 
     public StudentController(StudentService service) {
         this.service = service;
     }
+
+    /**
+     * Método encargado de añadir un alumno en la rua que se encuentra en @PostMapping
+     *
+     * @param studentDTO objeto de transferencia que mapeamos en el @service para convertirlo en un alumno
+     * @return el alumno insertado en la base de datos
+     */
 
     @PostMapping("/addStudent")
     public Student createStudent(@RequestBody NewStudentDTO studentDTO) {
@@ -33,10 +38,22 @@ public class StudentController {
         return service.saveAlumno(studentDTO);
     }
 
+    /**
+     * Método encargado de devolver todos los alumnos añadadidos
+     *
+     * @return el alumno insertado en la base de datos
+     */
     @GetMapping("/students")
     public List<Student> getAllStudents() {
         return service.getStudents();
     }
+
+    /**
+     * Método encargado de borrar un alumno a través de su id
+     *
+     * @param id identifica al alumno que va a ser borrado
+     * @return el alumno que ha si sido borrado de la aplicacioón
+     */
 
     @DeleteMapping("/student/{id}")
     public Student removeStudent(@PathVariable Long id) {

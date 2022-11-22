@@ -1,6 +1,5 @@
 package com.moodle.project.security.jwt;
 
-
 import com.moodle.project.entity.Usuario;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -24,10 +23,10 @@ public class JwtTokenProvider {
     public static final String TOKEN_PREFIX = "Bearer "; // Prefijo, importante este espacio
     public static final String TOKEN_TYPE = "JWT"; // Tipo de Token
 
-    @Value("${jwt.secret:EnUnLugarDeLaManchaDeCuyoNombreNoQuieroAcordarmeNoHaMuchoTiempoQueViviaUnHidalgo}")
+    @Value("${jwt.secret}")
     private String jwtSecreto; // Secreto, lo cargamos de properties y si no le asignamos un valor por defecto
 
-    @Value("${jwt.token-expiration:86400}")
+    @Value("${jwt.token-expiration}")
     private int jwtDuracionTokenEnSegundos; // Tiempo de expiración, idem a secreto
 
 
@@ -44,7 +43,8 @@ public class JwtTokenProvider {
         // Construimos el token con sus datos y payload
         return Jwts.builder()
                 // Lo firmamos con nuestro secreto HS512
-                .signWith(SignatureAlgorithm.HS512, Keys.hmacShaKeyFor(jwtSecreto.getBytes()))
+                //.signWith(SignatureAlgorithm.HS512, Keys.hmacShaKeyFor(jwtSecreto.getBytes()))
+                .signWith(Keys.hmacShaKeyFor(jwtSecreto.getBytes()), SignatureAlgorithm.HS512)
                 // Tipo de token
                 .setHeaderParam("typ", TOKEN_TYPE)
                 // Como Subject el ID del usuario
@@ -85,6 +85,7 @@ public class JwtTokenProvider {
         return Long.parseLong(claims.getSubject());
 
     }
+
     // Nos idica como validar el Token
     public boolean validateToken(String authToken) {
 

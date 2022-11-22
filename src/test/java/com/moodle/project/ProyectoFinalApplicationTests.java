@@ -8,13 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 class ProyectoFinalApplicationTests {
 
-	@Test
-	void contextLoads() {
-		assertTrue(true);
-	}
+    @Test
+    void contextLoads() {
+        assertTrue(true);
+    }
 
-	@Test
-	void trueIsTrue() {
-		assertTrue(true);
-	}
+    @Test
+    void trueIsTrue() {
+        assertTrue(true);
+    }
 }

@@ -2,7 +2,6 @@ package com.moodle.project.security;
 
 import com.moodle.project.security.jwt.JwtAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -10,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,10 +19,10 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@EnableWebSecurity
 @RequiredArgsConstructor
 // Activamos la seguridad a nivel de método, por si queremos trabajar a nivel de controlador
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
@@ -65,33 +65,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // Autorizamos con roles y acceso
                 .authorizeRequests()
-
-                // Registrarse todos y loguearse todos. De esta manera podemos permitir las consultas a todas las rutas
                 .antMatchers(HttpMethod.POST, "/usuarios/**").permitAll()
+                //.antMatchers(HttpMethod.GET, "/usuarios/**").hasAnyRole("ADMIN", "TEACH")
+                //.antMatchers("/admin").hasAnyRole("ADMIN", "TEACH")
+                // Registrarse todos y loguearse todos. De esta manera podemos permitir las consultas a todas las rutas
                 //.antMatchers(HttpMethod.GET, "/usuarios/**").hasAnyRole("STUDE", "TEACH")
-
-
-                // Loguearse, si estyuviese en otra ruta
-                //.antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/auth/login").permitAll()
-
-                // Jugamos ahora con /auth/productos
-
-                // Consultar productos solo los usuarios registrados pueden hacerlo
-                // Añadir productos solo los administradores
-                // Actualizar productos solo los usuarios
-                // Eliminar productos solo el administrador
-
-                // Cuidado que la ruta a la consola de H2 está capada, debemos darle acceso a todos temporalmente
-                //.antMatchers("/h2-console").permitAll()
-                // De la misma manera a swagger
-                //.antMatchers("/swagger-ui.html").permitAll()
-
-                // Resto de rutas, auteticadas o no, tu decides, cuidado con la consola
-                // de H2
-                // y la documentación de Swagger
-                // que debes darle acceso si la necesitas.
-                //.anyRequest().authenticated();
-                // O no, depende de nuestra política de seguridad
+                //.antMatchers("/admin").hasAnyRole("TEACH", "ADMIN")
                 .anyRequest().not().authenticated();
 
         // De nuevo para la consola de H2 estas dos lineas
@@ -109,6 +88,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().antMatchers("/images/", "/js/", "/webjars/");
     }
-
 
 }

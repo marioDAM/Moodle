@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,7 +27,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-
 // Cuidado que se necesia la barra al final porque la estamos poniendo en los verbos
 @RequestMapping("usuarios") // Sigue escucnado en el directorio API
 
@@ -43,10 +43,7 @@ public class UsuarioController {
     private final JwtTokenProvider tokenProvider;
 
     @ApiOperation(value = "Crea un usuario")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Usuario creado"),
-            @ApiResponse(code = 400, message = "Error al crear usuario")
-    })
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Usuario creado"), @ApiResponse(code = 400, message = "Error al crear usuario")})
     @PostMapping("/")
     public GetUsuarioDTO nuevoUsuario(@RequestBody CreateUsuarioDTO newUser) {
         return ususuarioMapper.toDTO(service.nuevoUsuario(newUser));
@@ -54,35 +51,23 @@ public class UsuarioController {
     }
 
     // Petición me de datos del usuario
-    // Equivalente en ponerlo en config, solo puede entrar si estamos auteticados
+    // Equivalente en ponerlo en config, solo puede entrar si estamos autenticados
     // De esta forma podemos hacer las rutas espècíficas
-    // @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
     @ApiOperation(value = "Devuelve los datos del usuario")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Usuario devuelto"),
-            @ApiResponse(code = 401, message = "No autenticado"),
-            @ApiResponse(code = 403, message = "No autorizado")
-    })
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Usuario devuelto"), @ApiResponse(code = 401, message = "No autenticado"), @ApiResponse(code = 403, message = "No autorizado")})
     @GetMapping("/me")
     public GetUsuarioDTO me(@AuthenticationPrincipal Usuario user) {
         return ususuarioMapper.toDTO(user);
     }
 
     @ApiOperation(value = "Autentica un usuario")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Usuario autenticado y token generado"),
-            @ApiResponse(code = 400, message = "Error al autenticar usuario"),
-    })
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Usuario autenticado y token generado"), @ApiResponse(code = 400, message = "Error al autenticar usuario"),})
     @PostMapping("/login")
     public JwtUserResponse login(@Valid @RequestBody LoginRequest loginRequest) {
-        Authentication authentication =
-                authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(
-                                loginRequest.getUsername(),
-                                loginRequest.getPassword()
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()
 
-                        )
-                );
+        ));
         // Autenticamos al usuario, si lo es nos lo devuelve
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -105,16 +90,13 @@ public class UsuarioController {
      * @return JwtUserResponse con el usuario y el token
      */
     private JwtUserResponse convertUserEntityAndTokenToJwtUserResponse(Usuario user, String jwtToken) {
-        return JwtUserResponse
-                .jwtUserResponseBuilder()
+        return JwtUserResponse.jwtUserResponseBuilder()
                 .fullName(user.getFullName())
-                .email(user.getEmail())
-                .dni(user.getDni())
+                .email(user.getEmail()).dni(user.getDni())
                 .username(user.getUsername())
-                .avatar(user.getAvatar())
-                .roles(user.getRoles().stream().map(Role::name).collect(Collectors.toSet()))
-                .token(jwtToken)
-                .build();
+                .entryDate(user.getEntryDate())
+                .avatar(user.getAvatar()).roles(user.getRoles().stream().map(Role::name).collect(Collectors.toSet()))
+                .token(jwtToken).build();
     }
 
     /**
@@ -122,8 +104,10 @@ public class UsuarioController {
      *
      * @return
      */
+    @ApiOperation(value = "Devuelve todos los usuarios")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Usuarios mostrados"), @ApiResponse(code = 400, message = "Error al mostrar los usuarios"),})
     @GetMapping("/getAll")
-    public List<Usuario> getAllStudents() {
+    public List<Usuario> getAllUsers() {
         return service.getUsers();
     }
 }

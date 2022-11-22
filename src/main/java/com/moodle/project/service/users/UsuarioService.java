@@ -65,27 +65,7 @@ public class UsuarioService {
         }
 
     }
-    public Usuario nuevoAdmin(CreateUsuarioDTO newUser) {
-        // System.out.println(passwordEncoder.encode(newUser.getPassword()));
-        if (newUser.getPassword().contentEquals(newUser.getPassword2())) {
-            Usuario usuario = Usuario.builder()
-                    .username(newUser.getUsername())
-                    .password(passwordEncoder.encode(newUser.getPassword()))
-                    .avatar(newUser.getAvatar())
-                    .fullName(newUser.getFullname()).email(newUser.getEmail())
-                    .dni(newUser.getDni())
-                    .entryDate(newUser.getEntryDate())
-                    .roles(Stream.of(Role.TEACH).collect(Collectors.toSet()))
-                    .build();
-            try {
-                return usuariosRepository.save(usuario);
-            } catch (DataIntegrityViolationException ex) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El nombre de usuario ya existe");
-            }
-        } else {
-            throw new NewUserWithDifferentPasswordsException();
-        }
 
-    }
+
 
 }

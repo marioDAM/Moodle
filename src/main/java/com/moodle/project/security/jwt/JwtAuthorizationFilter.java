@@ -32,7 +32,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
         try {
             // Sacamos el token
-            String token = getJwtFromRequest(request);
+            String token = getToken(request);
             // Si el token existe y es válido
             if (StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
                 // Obtenemos su ID
@@ -57,7 +57,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     }
 
     // Procesamos el Token del Request
-    private String getJwtFromRequest(HttpServletRequest request) {
+    private String getToken(HttpServletRequest request) {
         // Tomamos la cabecera
         String bearerToken = request.getHeader(JwtTokenProvider.TOKEN_HEADER);
         // Si tiene el prefijo y es de la logitud indicada
@@ -66,5 +66,4 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         }
         return null;
     }
-
 }

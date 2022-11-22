@@ -4,16 +4,18 @@ $(document).ready(function () {
 
 async function validate() {
     let dates = {};
+    dates.fullname = document.getElementById("fullname")
     dates.username = document.getElementById("username").value;
     dates.password = document.getElementById("password").value;
+    dates.password2 = document.getElementById("repeatPassword").value;
+    dates.email = document.getElementById("email").value;
+    dates.dni = document.getElementById("dni").value;
 
     let error = document.getElementById("error");
-    if (username.value == "" || password.value == "") {
+    if (username.value == "" || password.value == "" || email.value == "") {
         error.textContent = "Debes rellenar los campos";
     } else {
-        // error.hidden = true;
-        //email.style.borderColor = "black";
-        const request = await fetch('usuarios/login', {
+        const request = await fetch('usuarios', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -24,12 +26,9 @@ async function validate() {
         const usurious = await request.json();
         if (request.status === 200) {
             console.log("Algo va bien");
-            localStorage.token = usurious;
-            localStorage.username = dates.username;
-            window.location.href = '/admin'
+            alert("Se ha registrado correctamente el alumno ")
         } else {
             alert("Las credenciales son incorrectas")
         }
     }
 }
-
