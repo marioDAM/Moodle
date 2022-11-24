@@ -21,6 +21,20 @@ function actualizarEmailUsuario() {
     document.getElementById("email-usuario").outerHTML = localStorage.username;
 }
 
+async function me() {
+    const request = await fetch('usuarios/me', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer" + localStorage.token
+        },
+    });
+    const usuarios = await request.json();
+     let nombre = usuarios.name;
+
+}
+
 async function cargarUsuarios() {
     const request = await fetch('usuarios/getAll', {
         method: 'GET',
@@ -53,7 +67,7 @@ async function cargarUsuarios() {
 
 //Método que muestra los alumnos añadidos en la base de datos del proyecto
 async function cargarStudents() {
-    const request = await fetch('students', {
+    const request = await fetch('students/students', {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -85,7 +99,7 @@ async function eliminarUsuario(id) {
     if (!confirm('¿Desea eliminar el usuario?')) {
         return;
     }
-    const request = await fetch('student/' + id, {
+    const request = await fetch('students/student/' + id, {
         method: 'DELETE',
         headers: {
             'Accept': 'application/json',
@@ -99,7 +113,7 @@ async function añadirUsuario(id) {
     if (!confirm('¿Desea añadir el usuario?')) {
         return;
     }
-    const request = await fetch('addStudent/' + id, {
+    const request = await fetch('students/addStudent/' + id, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -111,7 +125,7 @@ async function añadirUsuario(id) {
 
 //Método que muestra los profesores añadidos en la base de datos del proyecto
 async function cargarTeachers() {
-    const request = await fetch('teachers', {
+    const request = await fetch('teacher/teachers', {
         method: 'GET',
         headers: {
             'Accept': 'application/json',

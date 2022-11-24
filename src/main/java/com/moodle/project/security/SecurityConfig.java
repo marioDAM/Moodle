@@ -65,8 +65,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // Autorizamos con roles y acceso
                 .authorizeHttpRequests()
+                .antMatchers("/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/usuarios/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/usuarios/**").hasAnyRole("ADMIN", "TEACH")
+                .antMatchers(HttpMethod.GET, "/usuarios/**").permitAll()
                 .antMatchers("/admin").hasAnyRole("ADMIN", "TEACH")
                 .antMatchers("/alumno").permitAll()
 
