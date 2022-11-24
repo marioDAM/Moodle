@@ -24,6 +24,7 @@ public class GetUsuarioDTO {
 
     @Email(regexp = ".*@.*\\..*", message = "Email debe ser válido")
     private String email;
+
     @NotBlank(message = "El dni no puede estar vacío")
     private String dni;
 

@@ -18,7 +18,7 @@ public class LoginController {
      */
     @GetMapping(path = {"/login", "/"})
     public String login() {
-        return "login";
+        return "Login";
     }
 
     /**
@@ -34,6 +34,11 @@ public class LoginController {
     @GetMapping(path = {"/register"})
     public String register() {
         return "register";
+    }
+
+    @GetMapping(path = {"/alumno"})
+    public String alumno() {
+        return "alumnos";
     }
 }
 

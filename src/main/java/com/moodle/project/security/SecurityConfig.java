@@ -64,18 +64,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 // Autorizamos con roles y acceso
-                .authorizeRequests()
+                .authorizeHttpRequests()
                 .antMatchers(HttpMethod.POST, "/usuarios/**").permitAll()
-                //.antMatchers(HttpMethod.GET, "/usuarios/**").hasAnyRole("ADMIN", "TEACH")
-                //.antMatchers("/admin").hasAnyRole("ADMIN", "TEACH")
-                // Registrarse todos y loguearse todos. De esta manera podemos permitir las consultas a todas las rutas
-                //.antMatchers(HttpMethod.GET, "/usuarios/**").hasAnyRole("STUDE", "TEACH")
-                //.antMatchers("/admin").hasAnyRole("TEACH", "ADMIN")
-                .anyRequest().not().authenticated();
+                .antMatchers(HttpMethod.GET, "/usuarios/**").hasAnyRole("ADMIN", "TEACH")
+                .antMatchers("/admin").hasAnyRole("ADMIN", "TEACH")
+                .antMatchers("/alumno").permitAll()
 
-        // De nuevo para la consola de H2 estas dos lineas
-//                .and().csrf().ignoringAntMatchers("/h2-console/**")
-//                .and().headers().frameOptions().sameOrigin();
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/hola")
+                .failureUrl("/login?error=true")
+                .permitAll()
+                .and()
+                .logout()
+                .logoutSuccessUrl("/login?logout=true")
+                .invalidateHttpSession(true)
+                .permitAll();
 
 
         // Será el encargado de coger el token y si es válido lo dejaremos pasar...

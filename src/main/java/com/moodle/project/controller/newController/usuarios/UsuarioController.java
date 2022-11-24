@@ -32,8 +32,6 @@ import java.util.stream.Collectors;
 
 // Inyeccion de dependencias usando Lombok y private final y no @Autowired, ver otros controladores
 @RequiredArgsConstructor
-@Configuration
-
 public class UsuarioController {
 
     private final UsuarioService service;
@@ -55,7 +53,9 @@ public class UsuarioController {
     // De esta forma podemos hacer las rutas espècíficas
     //@PreAuthorize("isAuthenticated()")
     @ApiOperation(value = "Devuelve los datos del usuario")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Usuario devuelto"), @ApiResponse(code = 401, message = "No autenticado"), @ApiResponse(code = 403, message = "No autorizado")})
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Usuario devuelto"),
+            @ApiResponse(code = 401, message = "No autenticado"),
+            @ApiResponse(code = 403, message = "No autorizado")})
     @GetMapping("/me")
     public GetUsuarioDTO me(@AuthenticationPrincipal Usuario user) {
         return ususuarioMapper.toDTO(user);

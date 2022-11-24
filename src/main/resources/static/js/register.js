@@ -4,10 +4,10 @@ $(document).ready(function () {
 
 async function validate() {
     let dates = {};
-    dates.fullname = document.getElementById("fullname")
+    dates.fullname = document.getElementById("fullname").value
     dates.username = document.getElementById("username").value;
     dates.password = document.getElementById("password").value;
-    dates.password2 = document.getElementById("repeatPassword").value;
+    dates.password2 = document.getElementById("password2").value;
     dates.email = document.getElementById("email").value;
     dates.dni = document.getElementById("dni").value;
 
@@ -15,7 +15,7 @@ async function validate() {
     if (username.value == "" || password.value == "" || email.value == "") {
         error.textContent = "Debes rellenar los campos";
     } else {
-        const request = await fetch('usuarios', {
+        const request = await fetch('usuarios/', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -27,6 +27,7 @@ async function validate() {
         if (request.status === 200) {
             console.log("Algo va bien");
             alert("Se ha registrado correctamente el alumno ")
+            window.location.href = '/admin'
         } else {
             alert("Las credenciales son incorrectas")
         }

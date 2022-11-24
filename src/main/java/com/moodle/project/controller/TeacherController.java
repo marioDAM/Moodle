@@ -16,7 +16,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping(path = "/**")
+@RequestMapping(path = "/teacher")
 public class TeacherController {
     private TeacherService service;
 

@@ -13,7 +13,6 @@ import java.util.List;
 public class Student extends User {
     private String dni;
     private int note;
-    private int test;
 
     private Date dateCompleted;
 

@@ -14,7 +14,7 @@ import java.util.List;
  * @author Mario Valverde
  */
 @RestController
-@RequestMapping(path = "/**")
+@RequestMapping(path = "/students")
 public class StudentController {
     /**
      * Campo de la clase encargado de llamar al servicio para tratar los datos con la base de datos

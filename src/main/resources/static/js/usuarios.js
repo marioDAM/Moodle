@@ -27,7 +27,7 @@ async function cargarUsuarios() {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': localStorage.token
+            "Authorization": "Bearer" + localStorage.token
         },
     });
     const usuarios = await request.json();
@@ -75,8 +75,7 @@ async function cargarStudents() {
             '</td><td>' + usuario.email +
             '</td><td>' + usuario.dni +
             '</td><td>' + usuario.subjects +
-            '</td><td>' + botonEliminar + '</td></tr>' +
-            '</td><td>' + botonAñadir + '</td></tr>'
+            '</td><td>' + botonEliminar + '</td></tr>'
         listadoHtml += usuarioHtml;
     }
     document.querySelector('#students tbody').outerHTML = listadoHtml
