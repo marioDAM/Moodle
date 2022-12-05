@@ -1,7 +1,7 @@
 package com.moodle.project.security.jwt;
 
 import com.moodle.project.entity.Usuario;
-import com.moodle.project.service.users.CustomUserDetailsService;
+import com.moodle.project.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

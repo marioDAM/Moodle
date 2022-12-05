@@ -1,10 +1,7 @@
 package com.moodle.project.entity;
 
 import com.moodle.project.enums.Role;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,6 +25,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 // Implementa UserDetails, neccesario para usar el servicio de usuarios de SrpingBoot(Spring security), ver CustomUserDetailsService
 public class Usuario implements UserDetails {
 

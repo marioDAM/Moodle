@@ -1,11 +1,12 @@
-package com.moodle.project.service.users;
+package com.moodle.project.service;
 
 
-import com.moodle.project.dto.usuarios.CreateUsuarioDTO;
+import com.moodle.project.dto.CreateUsuarioDTO;
 import com.moodle.project.entity.Usuario;
 import com.moodle.project.enums.Role;
 import com.moodle.project.errors.usuarios.NewUserWithDifferentPasswordsException;
-import com.moodle.project.repository.newRepository.UsuariosRepository;
+import com.moodle.project.repository.UsuariosRepository;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -66,6 +67,32 @@ public class UsuarioService {
 
     }
 
+    public Usuario nuevoProfesor(CreateUsuarioDTO newUser) {
+        // System.out.println(passwordEncoder.encode(newUser.getPassword()));
+        if (newUser.getPassword().contentEquals(newUser.getPassword2())) {
+            Usuario usuario = Usuario.builder()
+                    .username(newUser.getUsername())
+                    .password(passwordEncoder.encode(newUser.getPassword()))
+                    .avatar(newUser.getAvatar())
+                    .fullName(newUser.getFullname()).email(newUser.getEmail())
+                    .dni(newUser.getDni())
+                    .entryDate(newUser.getEntryDate())
+                    .roles(Stream.of(Role.TEACH).collect(Collectors.toSet()))
+                    .build();
+            try {
+                return usuariosRepository.save(usuario);
+            } catch (DataIntegrityViolationException ex) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El nombre de usuario ya existe");
+            }
+        } else {
+            throw new NewUserWithDifferentPasswordsException();
+        }
 
+    }
+
+    public Usuario deleteUsuario(Long id) {
+        usuariosRepository.deleteById(id);
+        return null;
+    }
 
 }

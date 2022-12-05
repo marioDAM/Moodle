@@ -53,46 +53,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http
-                .csrf()
-                .disable()
-                .exceptionHandling()
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                .and()
+        http.csrf().disable().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
                 // Para el establecimiento de sesiones son estado, no usamos sesiones
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // Autorizamos con roles y acceso
-                .authorizeHttpRequests()
+                .authorizeRequests()
                 .antMatchers("/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/usuarios/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/usuarios/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/usuarios/**")
+                .permitAll()
+                .antMatchers(HttpMethod.GET, "/usuarios/**")
+                .permitAll()
                 .antMatchers("/admin").hasAnyRole("ADMIN", "TEACH")
                 .antMatchers("/alumno").permitAll()
-
+                .antMatchers("/auth").permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/hola")
-                .failureUrl("/login?error=true")
-                .permitAll()
-                .and()
-                .logout()
-                .logoutSuccessUrl("/login?logout=true")
-                .invalidateHttpSession(true)
+                .defaultSuccessUrl("/auth", true)
                 .permitAll();
-
 
         // Será el encargado de coger el token y si es válido lo dejaremos pasar...
         // Añadimos el filtro (jwtAuthorizationFilter).
         http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
-
     }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().antMatchers("/images/", "/js/", "/webjars/");
     }
-
 }

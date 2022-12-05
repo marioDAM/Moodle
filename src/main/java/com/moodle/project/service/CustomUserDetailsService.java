@@ -1,4 +1,4 @@
-package com.moodle.project.service.users;
+package com.moodle.project.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,12 +18,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return usuarioService.findUserByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(username + " no encontrado"));
+        return usuarioService.findUserByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username + " no encontrado"));
     }
 
     public UserDetails loadUserById(Long userId) {
-        return usuarioService.findUserById(userId)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario con id: " + userId + " no encontrado"));
+        return usuarioService.findUserById(userId).orElseThrow(() -> new UsernameNotFoundException("Usuario con id: " + userId + " no encontrado"));
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title> Admin </title>
+    <title> Your Website</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -39,10 +39,10 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item dropdown no-arrow">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="#" mario10 >
                 <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="span">mario10</span></a>
-            <img class="img-profile rounded-circle"
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="span">  <h1 >mario10</h1></span></a>
+            <img class="img-profile rounded-circle" height="50" width="50"
                  src="img/undraw_profile.svg">
         </li>
 
@@ -59,12 +59,34 @@
 
 
         <!-- Nav Item - Charts -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#d"
+               aria-expanded="true" aria-controls="d">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Temario</span></a>
+            <div id="da" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Apuntes:</h6>
+                    <a class="collapse-item"
+                       href="https://www.lafotocopiadora.es/documentos/analsintactico.pdf">Lengua Castellana y
+                        Literatura</a>
+                    <a class="collapse-item" href="registerTeach.html"></a>
+                    <h6 class="collapse-header">Carga masiva de alumnos:</h6>
+                    <input type="file" name="adjunto" accept=".pdf,.jpg,.png,.csv" multiple/>
+                    <div class="collapse-divider"></div>
+                    <!--                     <h6 class="collapse-header">Other Pages:</h6>-->
+                    <!--                     <h6 class="collapse-header">Other Pages:</h6>-->
+                </div>
+            </div>
+        </li>
+
+
         <li class="nav-item">
             <a class="nav-link" href="charts.html">
                 <i class="fas fa-fw fa-chart-area"></i>
                 <span>Examenes</span></a>
         </li>
-
         <!-- Nav Item - Tables -->
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#d"
@@ -73,8 +95,10 @@
                 <span>Asignaturas</span></a>
             <div id="d" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Login Screens:</h6>
-                    <a class="collapse-item" href="#">Notas</a>
+                    <h6 class="collapse-header">:</h6>
+                    <a class="collapse-item" href="https://yoquieroaprobar.es/_pdf/38066.pdf">Lengua Castellana</a>
+                    <a class="collapse-item" href="#">Temario</a>
+
                     <!--                    <a class="collapse-item" href="forgot-password.html">Forgot Password</a>-->
                     <div class="collapse-divider"></div>
                     <h6 class="collapse-header">Other Pages:</h6>
@@ -137,26 +161,10 @@
                         </div>
                     </li>
                     <!-- Nav Item - Messages -->
-
-
-                    <div class="topbar-divider d-none d-sm-block"></div>
                 </ul>
 
             </nav>
-            <!-- End of Topbar -->
 
-            <!-- Begin Page Content -->
-            <div class="container-fluid">
-
-                <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">Welcome Mario Valverde</h1>
-                <p class="mb-4">Aquí encontraras tu información en cuando a tus asignaturas , notas y exámenes  <a target="_blank"
-                                                                           href="https://datatables.net">official
-                        DataTables documentation</a>.</p>
-
-
-            </div>
-            <!-- /.container-fluid -->
 
         </div>
         <!-- End of Main Content -->

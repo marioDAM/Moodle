@@ -1,6 +1,6 @@
 package com.moodle.project.security.jwt.model;
 
-import com.moodle.project.dto.usuarios.GetUsuarioDTO;
+import com.moodle.project.dto.GetUsuarioDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -95,6 +95,7 @@ public class JwtTokenProvider {
                     .setSigningKey(Keys.hmacShaKeyFor(jwtSecreto.getBytes()))
                     .build()
                     .parseClaimsJws(authToken);
+            System.out.println("EL TOKEN ES VALIDO");
             return true;
         } catch (SignatureException ex) {
             log.info("Error en la firma del token JWT: " + ex.getMessage());
