@@ -145,7 +145,7 @@
         <div id="content">
 
             <!-- Topbar -->
-            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" id="barraBuscar">
 
                 <!-- Sidebar Toggle (Topbar) -->
                 <form class="form-inline">
@@ -158,11 +158,12 @@
                 <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                     <div class="input-group">
-                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                        <input type="text" class="form-control bg-light border-0 small" id="barra"
+                               placeholder="Search for..."
                                aria-label="Search" aria-describedby="basic-addon2">
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search fa-sm"></i>
+                                <i class="fas fa-search fa-sm" onclick="buscarUsuarioNombre()"></i>
                             </button>
                         </div>
                     </div>
@@ -372,12 +373,12 @@
                 <h1 class="h3 mb-2 text-gray-800">Users Management</h1>
                 <h6 class="collapse-header">Carga masiva de alumnos:</h6>
 
-                <form th:action="@{/}" enctype="multipart/form-data" method="POST">
+                <form th:action="@{/file}" enctype="multipart/form-data" method="POST">
                     File to upload:</td>
-                    <input type="file" name="file" accept=".pdf,.jpg,.png,.csv"/>
+                    <input type="file" name="file" accept=".txt,.csv"/>
                     <input type="submit" value="Cargar CSV"/>
-                    <h1>Resultado de la carga</h1>
-                    <div th:if="${mesage}">
+                    <!--                    <h1>Resultado de la carga</h1>-->
+                    <div th:if="${message}">
                         <h2 th:text="${message}"></h2>
                     </div>
                 </form>
@@ -396,7 +397,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="usuarios" width="100%" cellspacing="0">
+                            <table class="table table-bordered" id="usuarios">
                                 <thead>
                                 <tr>
                                     <th>ID</th>

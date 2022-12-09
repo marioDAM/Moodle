@@ -1,5 +1,6 @@
 package com.moodle.project.mapper;
 
+import com.moodle.project.dto.CreateUsuarioDTO;
 import com.moodle.project.dto.GetUsuarioDTO;
 import com.moodle.project.entity.Usuario;
 import org.springframework.stereotype.Component;

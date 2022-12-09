@@ -1,5 +1,8 @@
 package com.moodle.project.enums;
 
+import org.springframework.stereotype.Component;
+
+
 public enum Role {
     ADMIN("admin"),
     STUDE("student"),

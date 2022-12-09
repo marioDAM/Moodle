@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,27 +28,44 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-// Cuidado que se necesia la barra al final porque la estamos poniendo en los verbos
-@RequestMapping("usuarios") // Sigue escucnado en el directorio API
-// Inyeccion de dependencias usando Lombok y private final y no @Autowired, ver otros controladores
-@RequiredArgsConstructor
+@RequestMapping("usuarios")
+/**
+ * Inyeccion de dependencias usando Lombok y private final y no @Autowired, ver otros controladores
+ */
 public class UsuarioController {
-    private final UsuarioService service;
-    private final AuthenticationManager authenticationManager;
-    private final UsuarioMapper ususuarioMapper;
+    //Servicio
+    @Autowired
+    private  UsuarioService service;
+    //Intenta autenticar el objeto,devolviendo un objeto de autenticación completamente rellenado (incluidas las autoridades concedidas) si tiene éxito.
+    @Autowired
+    private  AuthenticationManager authenticationManager;
 
-    private final JwtTokenProvider tokenProvider;
+    //Mapper para transformar objetos en entidad y viceversa
+    @Autowired
+    private  UsuarioMapper ususuarioMapper;
+    //Clase encargada de generar el token
+    @Autowired
+    private JwtTokenProvider tokenProvider;
+
+    @ApiOperation(value = "Devuelve un usuario  por su username")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Usuario encontrado"), @ApiResponse(code = 400, message = "Error al devolver usuario")})
+    @GetMapping("/user/{username}")
+    public Optional<Usuario> findByUsername(@PathVariable String username) {
+        return service.findUserByUsername(username);
+    }
 
 
     @ApiOperation(value = "Crea un alumno")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Alumno creado"), @ApiResponse(code = 400, message = "Error al crear usuario")})
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Alumno creado"), @ApiResponse(code = 400, message = "Error al crear alumno")})
     @PostMapping("/")
     public GetUsuarioDTO nuevoUsuario(@RequestBody CreateUsuarioDTO newUser) {
+
+        //   System.out.println("OBJETO DTO CONTROLADOR" + newUser.getFullname()+newUser.getEmail()+newUser.getUsername()+newUser.getDni()+newUser.getPassword2()+newUser.getEntryDate());
         return ususuarioMapper.toDTO(service.nuevoUsuario(newUser));
     }
 
     @ApiOperation(value = "Crea un Profesor")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Profesor creado"), @ApiResponse(code = 400, message = "Error al crear usuario")})
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Profesor creado"), @ApiResponse(code = 400, message = "Error al crear profesor")})
     @PostMapping("/teach")
     public GetUsuarioDTO nuevoProfesor(@RequestBody CreateUsuarioDTO newUser) {
         return ususuarioMapper.toDTO(service.nuevoProfesor(newUser));
@@ -110,7 +128,7 @@ public class UsuarioController {
     /**
      * Método que devuelve todos los usuarios
      *
-     * @return
+     * @return all users
      */
     @ApiOperation(value = "Devuelve todos los usuarios")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Usuarios mostrados"), @ApiResponse(code = 400, message = "Error al mostrar los usuarios"),})
@@ -119,11 +137,15 @@ public class UsuarioController {
         return service.getUsers();
     }
 
+    @ApiOperation(value = "Elimina un usuario  por su id")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Usuario eliminado"), @ApiResponse(code = 400, message = "Error al eliminar usuario")})
     @DeleteMapping("/{id}")
     public Usuario removeUser(@PathVariable Long id) {
         return service.deleteUsuario(id);
     }
 
+    @ApiOperation(value = "Devuelve un usuario  por su id")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Usuario encontrado"), @ApiResponse(code = 400, message = "Error al devolver usuario")})
     @GetMapping("/{id}")
     public Optional<Usuario> getUSuarioById(@PathVariable Long id) {
         return service.findUserById(id);

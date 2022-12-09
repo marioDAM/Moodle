@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -32,7 +33,7 @@ public class Usuario implements UserDetails {
     private static final long serialVersionUID = 6189678452627071360L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)
@@ -42,6 +43,13 @@ public class Usuario implements UserDetails {
     @NotNull(message = "Password no puede ser nulo")
     private String password;
 
+    // Definimos el tipo de fetch como EAGER para que
+    // cualquier consulta que devuelve un usuario rellene automáticamente
+    // toda su lista de tareas
+    // CUIDADO!! No es recomendable hacerlo en aquellos casos en los
+    // que la relación pueda traer a memoria una gran cantidad de entidades
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+    Set<Tarea> tareas = new HashSet<>();
     private String avatar;
 
     @NotNull(message = "FullName no puede ser nulo")
@@ -73,6 +81,31 @@ public class Usuario implements UserDetails {
     private String modifiedBy;
 
     private String subjects;
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                ", dni='" + dni + '\'' +
+                ", note=" + note +
+                ", test=" + test +
+                ", dateCompleted=" + dateCompleted +
+                ", course='" + course + '\'' +
+                ", isTerminated=" + isTerminated +
+                ", entryDate=" + entryDate +
+                ", leavingDate=" + leavingDate +
+                ", dischargedBy='" + dischargedBy + '\'' +
+                ", modifiedBy='" + modifiedBy + '\'' +
+                ", subjects='" + subjects + '\'' +
+                ", roles=" + roles +
+                ", createdAt=" + createdAt +
+                ", lastPasswordChangeAt=" + lastPasswordChangeAt +
+                '}';
+    }
 
     // Conjunto de permisos que tiene
     @ElementCollection(fetch = FetchType.EAGER)

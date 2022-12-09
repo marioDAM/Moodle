@@ -37,7 +37,7 @@ async function validate() {
 
 
         } else if (request.status === 200 && roles.includes("STUDE")) {
-            window.location.href = '/alumno'
+            window.location.href = '/alumno','refresh'
 
         } else {
             alert("Las credenciales son incorrectas")
