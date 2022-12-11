@@ -1,5 +1,7 @@
 package com.moodle.project;
 
+import com.moodle.project.service.TareaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,5 +11,7 @@ import java.io.IOException;
 public class ProyectoFinalApplication {
     public static void main(String[] args) throws IOException {
         SpringApplication.run(ProyectoFinalApplication.class, args);
+
+
     }
 }

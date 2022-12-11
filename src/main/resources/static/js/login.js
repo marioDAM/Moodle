@@ -25,19 +25,20 @@ async function validate() {
         let roles = u.roles;
         token = u.token;
 
-        if (request.status === 200 && roles.includes("ADMIN") || roles.includes("TEACH")) {
+        if (request.status === 200 && roles.includes("ADMIN")) {
             console.log("Algo va bien");
             localStorage.token = token;
 
             localStorage.username = dates.username;
-
-            //window.location.href = '/admin'
-            //return u;
             return admin(localStorage.token);
 
 
+        } else if (request.status === 200 && roles.includes("TEACH")) {
+            window.location.href = '/profesor', 'refresh'
+
+
         } else if (request.status === 200 && roles.includes("STUDE")) {
-            window.location.href = '/alumno','refresh'
+            window.location.href = '/alumno', 'refresh'
 
         } else {
             alert("Las credenciales son incorrectas")

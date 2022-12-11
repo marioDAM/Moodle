@@ -1,9 +1,8 @@
 package com.moodle.project.enums;
 
-import org.springframework.stereotype.Component;
-
-
+//Clase utilizada para poder diferenciar a los usuarios con su función en la aplicación
 public enum Role {
+
     ADMIN("admin"),
     STUDE("student"),
 

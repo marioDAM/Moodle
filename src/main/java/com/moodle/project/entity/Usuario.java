@@ -1,5 +1,6 @@
 package com.moodle.project.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.moodle.project.enums.Role;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -26,8 +27,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
-// Implementa UserDetails, neccesario para usar el servicio de usuarios de SrpingBoot(Spring security), ver CustomUserDetailsService
+// Implementa UserDetails, neccesario para usar el servicio de usuarios de SpringBoot(Spring security), ver CustomUserDetailsService
 public class Usuario implements UserDetails {
 
     private static final long serialVersionUID = 6189678452627071360L;
@@ -48,10 +48,10 @@ public class Usuario implements UserDetails {
     // toda su lista de tareas
     // CUIDADO!! No es recomendable hacerlo en aquellos casos en los
     // que la relación pueda traer a memoria una gran cantidad de entidades
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "usuario")
     Set<Tarea> tareas = new HashSet<>();
     private String avatar;
-
     @NotNull(message = "FullName no puede ser nulo")
     private String fullName;
 
@@ -70,7 +70,6 @@ public class Usuario implements UserDetails {
     private String course;
 
     private boolean isTerminated;
-
     private LocalDateTime entryDate = LocalDateTime.now();
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
@@ -82,11 +81,25 @@ public class Usuario implements UserDetails {
 
     private String subjects;
 
+
+    // Conjunto de permisos que tiene
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @Builder.Default
+    private LocalDateTime lastPasswordChangeAt = LocalDateTime.now();
+
     @Override
     public String toString() {
         return "Usuario{" +
-                "username='" + username + '\'' +
+                "id=" + id +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", tareas=" + tareas +
                 ", avatar='" + avatar + '\'' +
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
@@ -106,18 +119,6 @@ public class Usuario implements UserDetails {
                 ", lastPasswordChangeAt=" + lastPasswordChangeAt +
                 '}';
     }
-
-    // Conjunto de permisos que tiene
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
-
-    @CreatedDate
-    private LocalDateTime createdAt;
-
-    @Builder.Default
-    private LocalDateTime lastPasswordChangeAt = LocalDateTime.now();
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -162,4 +163,10 @@ public class Usuario implements UserDetails {
         return true;
     }
 
+    public void setTareas(Set<Tarea> tareas) {
+        this.tareas = tareas;
+        for (Tarea tarea : tareas) {
+            tarea.setUsuario(this);
+        }
+    }
 }

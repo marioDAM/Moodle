@@ -6,6 +6,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TareaDTOtoTarea implements IMapper<TareaDTO, Tarea> {
+    /**
+     * Nos permite mapear el objeto de transferencia en un tipo Tarea
+     *
+     * @param in Dato entrada
+     * @return
+     */
     @Override
     public Tarea map(TareaDTO in) {
         Tarea tarea = new Tarea();

@@ -17,6 +17,7 @@ public class CreateUsuarioDTO {
     private String username;
 
     private String avatar;
+    private String subject;
 
     @NotBlank(message = "El nombre de usuario no puede estar vacío")
     private String fullname;
@@ -29,7 +30,7 @@ public class CreateUsuarioDTO {
     @NotBlank(message = "La contraseña no puede estar vacía")
     private String password;
 
-    @NotBlank(message = "La contraseña2 no puede estar vacía")
+    @NotBlank(message = "La contraseña 2 no puede estar vacía")
     private String password2;
 
     public LocalDateTime entryDate = LocalDateTime.now();

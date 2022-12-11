@@ -111,7 +111,7 @@ class UsuarioControllerTest {
 
         when(mapper.toDTO(usuario)).thenReturn(dto);
 
-        ResponseEntity<?> response = (ResponseEntity<?>) controller.getAllUsers();
+        ResponseEntity<?> response = (ResponseEntity<?>) controller.getUsers();
         GetUsuarioDTO res = (GetUsuarioDTO) response.getBody();
 
         assertAll(

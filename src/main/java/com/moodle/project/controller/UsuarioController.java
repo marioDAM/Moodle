@@ -11,7 +11,6 @@ import com.moodle.project.service.UsuarioService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,14 +34,14 @@ import java.util.stream.Collectors;
 public class UsuarioController {
     //Servicio
     @Autowired
-    private  UsuarioService service;
+    private UsuarioService service;
     //Intenta autenticar el objeto,devolviendo un objeto de autenticación completamente rellenado (incluidas las autoridades concedidas) si tiene éxito.
     @Autowired
-    private  AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     //Mapper para transformar objetos en entidad y viceversa
     @Autowired
-    private  UsuarioMapper ususuarioMapper;
+    private UsuarioMapper ususuarioMapper;
     //Clase encargada de generar el token
     @Autowired
     private JwtTokenProvider tokenProvider;
@@ -75,7 +74,6 @@ public class UsuarioController {
     // Petición me de datos del usuario
     // Equivalente en ponerlo en config, solo puede entrar si estamos autenticados
     // De esta forma podemos hacer las rutas espècíficas
-    //@PreAuthorize("isAuthenticated()")
     @ApiOperation(value = "Devuelve los datos del usuario")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Usuario devuelto"), @ApiResponse(code = 401, message = "No autenticado"), @ApiResponse(code = 403, message = "No autorizado")})
     @GetMapping("/me")
@@ -133,10 +131,28 @@ public class UsuarioController {
     @ApiOperation(value = "Devuelve todos los usuarios")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Usuarios mostrados"), @ApiResponse(code = 400, message = "Error al mostrar los usuarios"),})
     @GetMapping("/getAll")
-    public List<Usuario> getAllUsers() {
+    public List<Usuario> getUsers() {
         return service.getUsers();
     }
 
+    /**
+     * Método que devuelve todos los alumnos con rol de alumno
+     *
+     * @return Usuario.STUDY
+     */
+    @ApiOperation(value = "Devuelve todos los alumnos")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Alumnos mostrados"), @ApiResponse(code = 400, message = "Error al mostrar los alumnos"),})
+    @GetMapping("/getAll/students")
+    public List<Usuario> getStudents() {
+        return service.getAlumnos();
+    }
+
+    /**
+     * Método que elimina un usuario a través de su id
+     *
+     * @param id
+     * @return Usuario eliminado
+     */
     @ApiOperation(value = "Elimina un usuario  por su id")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Usuario eliminado"), @ApiResponse(code = 400, message = "Error al eliminar usuario")})
     @DeleteMapping("/{id}")
@@ -144,10 +160,17 @@ public class UsuarioController {
         return service.deleteUsuario(id);
     }
 
+    /**
+     * Método que devuelve un usuario a través de su id
+     *
+     * @param id
+     * @return Usuario
+     */
+
     @ApiOperation(value = "Devuelve un usuario  por su id")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Usuario encontrado"), @ApiResponse(code = 400, message = "Error al devolver usuario")})
     @GetMapping("/{id}")
-    public Optional<Usuario> getUSuarioById(@PathVariable Long id) {
+    public Optional<Usuario> getUsuarioById(@PathVariable Long id) {
         return service.findUserById(id);
     }
 }

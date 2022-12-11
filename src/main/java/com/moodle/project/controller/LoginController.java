@@ -1,27 +1,15 @@
 package com.moodle.project.controller;
 
 import com.moodle.project.dto.CreateUsuarioDTO;
-import com.moodle.project.dto.GetUsuarioDTO;
 import com.moodle.project.entity.Usuario;
 import com.moodle.project.enums.Role;
-import com.moodle.project.mapper.UsuarioMapper;
 import com.moodle.project.repository.UsuariosRepository;
-import com.moodle.project.security.jwt.JwtTokenProvider;
 import com.moodle.project.service.CustomUserDetailsService;
 import com.moodle.project.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.FluentQuery;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +21,6 @@ import javax.transaction.Transactional;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.function.Function;
 
 import static com.moodle.project.enums.Role.STUDE;
 
@@ -49,6 +36,8 @@ public class LoginController {
 
     @Autowired
     private UsuarioService service;
+    @Autowired
+    private UsuariosRepository repository;
 
     List<Usuario> usuarios = new ArrayList<>();
 
@@ -90,15 +79,68 @@ public class LoginController {
         return "register";
     }
 
+    /**
+     * Ruta que sirve para ir a la vista en la que podemos añadir un profesor
+     *
+     * @return plantilla html
+     */
+
     @GetMapping(path = {"/register/teach"})
     public String registerTeach() {
         return "registerTeach";
     }
 
+    /**
+     * Vista del alumno
+     *
+     * @return plantilla de html
+     */
     @GetMapping(path = {"/alumno"})
-    public String alumno(Model model) {
+    public String alumno() {
+        return "alumno";
+    }
 
+    @GetMapping("profesor")
+    public String profesor() {
+        return "profesor";
+    }
+
+    @GetMapping(path = {"/createalumno"})
+    public String crear(Model model) {
+        CreateUsuarioDTO usuario = new CreateUsuarioDTO();
+        model.addAttribute("titulo", "Nuevo cliente");
+        model.addAttribute("usuario", usuario);
+        return "añadirAlumno";
+    }
+
+    @PostMapping("save")
+    public String guardar(@ModelAttribute CreateUsuarioDTO usuario) {
+        service.nuevoUsuario(usuario);
+        return "redirect:listalumnos";
+    }
+
+    @GetMapping(path = {"/edit/{id}"})
+    public String editar(@PathVariable Long id, Model model) {
+        Optional<Usuario> usuario = service.findUserById(id);
+        model.addAttribute("titulo", "Editar Alumno");
+        model.addAttribute("usuario", usuario);
+        return "añadirAlumno";
+    }
+
+    @GetMapping("findusername")
+    public String findByUsername(@RequestBody String username, Model model) {
+        Optional<Usuario> usuario = service.findUserByUsername(username);
+        model.addAttribute("username", usuario);
+        return "findusername";
+
+    }
+
+    @GetMapping("listalumnos")
+    public String listaAlumnos(Model model) {
+        List<Usuario> alumnos = service.getAlumnos();
+        model.addAttribute("listaAlumnos", alumnos);
         return "alumnos";
+
     }
 
 
@@ -136,6 +178,7 @@ public class LoginController {
                     dto.setPassword(fields[5]);
                     dto.setPassword2(fields[13]);
                     Set<Role> roles = Collections.singleton(STUDE);
+
                     Usuario usuario = new Usuario();
                     usuario.setTerminated(Boolean.parseBoolean(fields[6]));
                     usuario.setNote(Integer.parseInt(fields[8]));
@@ -164,7 +207,6 @@ public class LoginController {
         String result[] = new String[fields.length];
         for (int i = 0; i < result.length; i++) {
             final String BARRA = "\"";
-
             result[i] = fields[i].replaceAll("^" + BARRA, "").replaceAll(BARRA + "$", "");
         }
         return result;
@@ -180,184 +222,5 @@ public class LoginController {
             response.sendRedirect("/alumno");
         }
     }
-
-
-    private final UsuariosRepository usuariosRepository = new UsuariosRepository() {
-        @Override
-        public List<Usuario> findAll() {
-            return null;
-        }
-
-        @Override
-        public List<Usuario> findAll(Sort sort) {
-            return null;
-        }
-
-        @Override
-        public Page<Usuario> findAll(Pageable pageable) {
-            return null;
-        }
-
-        @Override
-        public List<Usuario> findAllById(Iterable<Long> longs) {
-            return null;
-        }
-
-        @Override
-        public long count() {
-            return 0;
-        }
-
-        @Override
-        public void deleteById(Long aLong) {
-
-        }
-
-        @Override
-        public void delete(Usuario entity) {
-
-        }
-
-        @Override
-        public void deleteAllById(Iterable<? extends Long> longs) {
-
-        }
-
-        @Override
-        public void deleteAll(Iterable<? extends Usuario> entities) {
-
-        }
-
-        @Override
-        public void deleteAll() {
-
-        }
-
-        @Override
-        public <S extends Usuario> S save(S entity) {
-            return null;
-        }
-
-        @Override
-        public <S extends Usuario> List<S> saveAll(Iterable<S> entities) {
-            return null;
-        }
-
-        @Override
-        public Optional<Usuario> findById(Long aLong) {
-            return Optional.empty();
-        }
-
-        @Override
-        public boolean existsById(Long aLong) {
-            return false;
-        }
-
-        @Override
-        public void flush() {
-
-        }
-
-        @Override
-        public <S extends Usuario> S saveAndFlush(S entity) {
-            return null;
-        }
-
-        @Override
-        public <S extends Usuario> List<S> saveAllAndFlush(Iterable<S> entities) {
-            return null;
-        }
-
-        @Override
-        public void deleteAllInBatch(Iterable<Usuario> entities) {
-
-        }
-
-        @Override
-        public void deleteAllByIdInBatch(Iterable<Long> longs) {
-
-        }
-
-        @Override
-        public void deleteAllInBatch() {
-
-        }
-
-        @Override
-        public Usuario getOne(Long aLong) {
-            return null;
-        }
-
-        @Override
-        public Usuario getById(Long aLong) {
-            return null;
-        }
-
-        @Override
-        public Usuario getReferenceById(Long aLong) {
-            return null;
-        }
-
-        @Override
-        public <S extends Usuario> Optional<S> findOne(Example<S> example) {
-            return Optional.empty();
-        }
-
-        @Override
-        public <S extends Usuario> List<S> findAll(Example<S> example) {
-            return null;
-        }
-
-        @Override
-        public <S extends Usuario> List<S> findAll(Example<S> example, Sort sort) {
-            return null;
-        }
-
-        @Override
-        public <S extends Usuario> Page<S> findAll(Example<S> example, Pageable pageable) {
-            return null;
-        }
-
-        @Override
-        public <S extends Usuario> long count(Example<S> example) {
-            return 0;
-        }
-
-        @Override
-        public <S extends Usuario> boolean exists(Example<S> example) {
-            return false;
-        }
-
-        @Override
-        public <S extends Usuario, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
-            return null;
-        }
-
-        @Override
-        public Optional<Usuario> findByUsername(String username) {
-            return Optional.empty();
-        }
-    };
-    private PasswordEncoder passwordEncoder = new PasswordEncoder() {
-        @Override
-        public String encode(CharSequence rawPassword) {
-            return null;
-        }
-
-        @Override
-        public boolean matches(CharSequence rawPassword, String encodedPassword) {
-            return false;
-        }
-    };
-
-    private AuthenticationManager authenticationManager = new AuthenticationManager() {
-        @Override
-        public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-            return null;
-        }
-    };
-    private UsuarioMapper ususuarioMapper = new UsuarioMapper();
-
-    private JwtTokenProvider tokenProvider = new JwtTokenProvider();
 }
 

@@ -10,8 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.Date;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static com.moodle.project.enums.Role.STUDE;
 
 @Service
 public class TareaService {
@@ -33,8 +40,13 @@ public class TareaService {
         return tarea;
     }
 
-    public Tarea createTarea(TareaDTO dto) {
-        Tarea tarea = t.map(dto);
+    public List<Tarea> getTareas() {
+
+        return (List<Tarea>) tareaRepository.findAll();
+
+    }
+
+    public Tarea createTarea(Tarea tarea) {
         return tareaRepository.save(tarea);
     }
 }

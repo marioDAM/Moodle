@@ -1,7 +1,4 @@
 username;avatar;fullname;email;dni;password;isTerminated;entryDate;note;test;subjects;created;last;password2
-toni; image;Antonio Kroos;antoni@hotmail.com;323224D;1234;false;19/10/2022;1;0;d;d;t;1234
-markitos;image;Marc Sanc;marc@hotmail.com;76757543G;1234;false;12/06/2021;1;0;d;d;t;1234
-;;;;;;;;;;;;;
-;;;;;;;;;;;;;
-;;;;;;;;;;;;;
+toni; image;Antonio Kroos;antoni@hotmail.com;32322234D;1234;false;19/10/2022;1;0;Lengua Castellana;d;t;1234
+markitos;image;Marc Sanc;marc@hotmail.com;76757543G;1234;false;12/06/2021;1;0;Matemáticas;d;t;1234
 ;;;;;;;;;;;;;
