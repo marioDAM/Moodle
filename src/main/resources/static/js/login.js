@@ -54,7 +54,6 @@ async function validate() {
             "Redirect": 'follow',
             "Authorization": `Bearer ${h}`
         }
-        alert("hhh")
         console.log("header", header)
 
         const response = fetch('/admin', {

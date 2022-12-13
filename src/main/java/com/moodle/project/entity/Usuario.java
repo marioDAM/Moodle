@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "usuarios")
-@EntityListeners(AuditingEntityListener.class)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -46,9 +45,7 @@ public class Usuario implements UserDetails {
     // Definimos el tipo de fetch como EAGER para que
     // cualquier consulta que devuelve un usuario rellene automáticamente
     // toda su lista de tareas
-    // CUIDADO!! No es recomendable hacerlo en aquellos casos en los
-    // que la relación pueda traer a memoria una gran cantidad de entidades
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JsonManagedReference(value = "usuario")
     Set<Tarea> tareas = new HashSet<>();
     private String avatar;
@@ -62,6 +59,8 @@ public class Usuario implements UserDetails {
     private String dni;
 
     private int note;
+
+
 
     private int test;
 
@@ -119,6 +118,7 @@ public class Usuario implements UserDetails {
                 ", lastPasswordChangeAt=" + lastPasswordChangeAt +
                 '}';
     }
+    public Usuario(Long id){id =id;}
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

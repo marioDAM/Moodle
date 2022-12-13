@@ -19,12 +19,6 @@
             <li class="nav-item active">
                 <a class="nav-link" th:href="@{/listalumnos}">Alumnos <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
         </ul>
         <form class="form-inline my-2 my-lg-0" th:action="@{findusername}">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -46,6 +40,8 @@
                 <th scope="col">DNI</th>
                 <th scope="col">Asignaturas</th>
                 <th scope="col">Tarea</th>
+                <th scope="col">Eliminar</th>
+
             </tr>
             </thead>
             <tbody>
@@ -55,6 +51,7 @@
                 <td th:text="${alumno.dni}">
                 <td th:text="${alumno.subjects}">
                 <td th:text="${alumno.tareas}">
+                <td><a th:href="@{/eliminar/} + ${alumno.id}" class="btn btn-danger btn-xs" th:text="Eliminar"></a></td>
                 </td>
             </tr>
             </tbody>
@@ -64,6 +61,17 @@
 </div>
 <button type="button" class="btn btn-primary btn-lg btn-block" onclick="location.href='createalumno'">Añadir alumno
 </button>
-
+<div class="container">
+    <footer th:fragment="footer" class="bg-dark text-center text-white fixed-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div style="text-align: center;">  <p>© mario | Website created by Mario Valverde</p></div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
 </body>
+
 </html>

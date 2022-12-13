@@ -19,33 +19,35 @@
             <li class="nav-item active">
                 <a class="nav-link" th:href="@{/listalumnos}">Alumnos <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                    Dropdown
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
         </ul>
     </div>
 </nav>
 <br>
-<footer th:fragment="footer" class="bg-dark text-center text-white fixed-bottom">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <p>© mario | Website created by Mario Valverde</p>
+<div class="card mb-3" style="max-width: 540px;">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="file/evento.jpg" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">Lengua Castellana</h5>
+                <p class="card-text">Esto es un resumen de todo lo que se va a ver sobre la materia a lo largo del curso</p>
+                <SCRIPT>document.write(document.lastModified )</SCRIPT>
+                <p class="card-text"><small class="text-muted">Last updated</small></p>
             </div>
         </div>
     </div>
-</footer>
+</div>
+<div class="container">
+    <footer th:fragment="footer" class="bg-dark text-center text-white fixed-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                  <div style="text-align: center;">  <p>© mario | Website created by Mario Valverde</p></div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
 </body>
 </html>

@@ -60,7 +60,7 @@ public class UsuarioController {
     public GetUsuarioDTO nuevoUsuario(@RequestBody CreateUsuarioDTO newUser) {
 
         //   System.out.println("OBJETO DTO CONTROLADOR" + newUser.getFullname()+newUser.getEmail()+newUser.getUsername()+newUser.getDni()+newUser.getPassword2()+newUser.getEntryDate());
-        return ususuarioMapper.toDTO(service.nuevoUsuario(newUser));
+        return ususuarioMapper.toDTO(service.nuevoAlumno(newUser));
     }
 
     @ApiOperation(value = "Crea un Profesor")

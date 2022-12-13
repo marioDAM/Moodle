@@ -45,11 +45,10 @@ insert into usuario_roles (usuario_id, roles)
 values (12, 'STUDE');
 
 
--- insert into tareas(id, descripcion, titulo, usuario_id)
--- values (1, 'Ejercicio repaso', 'Realiza este ejercicio', 4);
---
-insert into tareas
-values (1, 'Desarrolla un comentario de texto ', 'Realiza este ejercicio', 11)
+insert into tareas(id, descripcion, titulo, usuario_id)
+values (1, 'Desarrolla este comentario de texto', 'Realiza este ejercicio', 11);
+
+
 
 
 

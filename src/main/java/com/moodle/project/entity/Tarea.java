@@ -2,6 +2,11 @@ package com.moodle.project.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -9,6 +14,11 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "tareas")
+@EntityListeners(AuditingEntityListener.class)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Tarea implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,47 +45,22 @@ public class Tarea implements Serializable {
     // Al crear una tarea la asociamos automáticamente a un
     // usuario. Actualizamos, por tanto, la lista de tareas del
     // usuario.
-    public Tarea(Usuario usuario, String titulo) {
-        this.usuario = usuario;
-        this.titulo = titulo;
-        usuario.getTareas().add(this);
-    }
-
-    public Tarea() {
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
+//    public Tarea(Usuario usuario, String titulo) {
+//        this.usuario = usuario;
+//        this.titulo = titulo;
+//        usuario.getTareas().add(this);
+//    }
+//
+//    public Tarea(Long id, String titulo, String descripcion, Usuario usuario) {
+//        this.id = id;
+//        this.titulo = titulo;
+//        this.descripcion = descripcion;
+//        this.usuario = usuario;
+//    }
+//
+//    public Tarea() {
+//
+//    }
 
     @Override
     public boolean equals(Object o) {

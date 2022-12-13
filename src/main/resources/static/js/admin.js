@@ -1,5 +1,8 @@
 // Call the dataTables jQuery plugin
-
+/**
+ * Esta será la lógica de la vista que tendrá el administrador
+ *
+ */
 $(document).ready(function () {
     alert("Pestaña administrador")
     cargarUsuarios();
@@ -25,6 +28,10 @@ async function me() {
 
 }
 
+/**
+ * Tabla que contiene todos los usuarios de la aplicación
+ * @returns {Promise<void>}
+ */
 async function cargarUsuarios() {
     const request = await fetch('usuarios/getAll', {
         method: 'GET',
@@ -53,6 +60,12 @@ async function cargarUsuarios() {
     }
     document.querySelector('#usuarios tbody').outerHTML = listadoHtml
 }
+
+/**
+ * Lógica que tendrá el botón de eliminar un usuario
+ * @param id
+ * @returns {Promise<void>}
+ */
 async function eliminarUsuario(id) {
     if (!confirm('¿Desea eliminar el usuario con id ?' + id)) {
         return;
@@ -66,14 +79,18 @@ async function eliminarUsuario(id) {
     });
     location.reload()
 }
+
+/**
+ * Método que busca un usuario por su nombre de usuario, la barra de search
+ * que se encuentra en la vista
+ * @param username
+ * @returns {Promise<void>}
+ */
 async function buscarUsuarioNombre(username) {
     let dates = {};
     dates.username = document.getElementById("barra").value;
     username = dates.username;
 
-    if (!confirm('¿Desea buscar el usuario? ' + username)) {
-        return;
-    }
     console.log(username);
     const request = await fetch('usuarios/user/' + username, {
         method: 'GET',
@@ -84,7 +101,6 @@ async function buscarUsuarioNombre(username) {
     });
     const usuario = await request.json();
     console.log(usuario)
-    // alert('h')
     let botonEliminar = '<a href="#" onclick="eliminarUsuario(' + usuario.id + ')" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>';
 
     let listadoHtml = '';

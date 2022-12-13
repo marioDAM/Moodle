@@ -55,7 +55,7 @@ public class UsuarioService {
      * Nos permite ver todos los usuarios añadidos en la aplicación
      * independiente de su rol en esta.
      *
-     * @return
+     * @return lista de usuarios
      */
     public List<Usuario> getUsers() {
         return usuariosRepository.findAll();
@@ -83,7 +83,7 @@ public class UsuarioService {
     /**
      * Nos permite crear un nuevo Usuario con rol alumno
      */
-    public Usuario nuevoUsuario(CreateUsuarioDTO newStudent) {
+    public Usuario nuevoAlumno(CreateUsuarioDTO newStudent) {
         // System.out.println(passwordEncoder.encode(newUser.getPassword()));
         System.out.println();
         if (newStudent.getPassword().contentEquals(newStudent.getPassword2())) {

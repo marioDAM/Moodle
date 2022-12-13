@@ -17,6 +17,9 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ *
+ */
 @RestController
 @RequestMapping("tareas")
 public class TareaController {
@@ -24,6 +27,12 @@ public class TareaController {
     private TareaService service;
     @Autowired
     private UsuariosRepository usuarioService;
+
+    /**
+     *
+     * @param tarea
+     * @return
+     */
 
     @ApiOperation(value = "Crea una tarea")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Tarea creado"), @ApiResponse(code = 400, message = "Error al crear tarea")})
@@ -39,6 +48,13 @@ public class TareaController {
         return ResponseEntity.created(ubicacion).body(newTarea);
     }
 
+    /**
+     *
+     * @param idTarea
+     * @param nuevoTitulo
+     * @return
+     * @throws Exception
+     */
     @ApiOperation(value = "Modifica una tarea")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Tarea modificada"), @ApiResponse(code = 400, message = "Error al modificar tarea")})
     @PostMapping("/{idTarea}/editar")
@@ -46,6 +62,10 @@ public class TareaController {
         return service.modificaTarea(idTarea, nuevoTitulo);
     }
 
+    /**
+     *
+     * @return
+     */
     @GetMapping("/tareas")
     public List<Tarea> getTareas() {
         return service.getTareas();

@@ -64,12 +64,12 @@ public class LoginController {
     @RequestMapping("/admin")
     public String admin(Model model) {
         model.addAttribute("titulo", "Listar clientes");
-        model.addAttribute("clientes", service.getUsers());
         return "admin";
     }
 
     /**
-     * La ruta que vemos en @GetMapping, será donde veamos la interfaz del profesor para poder añadir alumnos al instituto
+     * La ruta que vemos en @GetMapping, será donde veamos la interfaz
+     * del profesor para poder añadir alumnos al instituto
      *
      * @return La vista donde se encentra la interfaz del administrador
      */
@@ -100,22 +100,35 @@ public class LoginController {
         return "alumno";
     }
 
+    /**
+     * Ruta donde se encuentra el endpoint del profesor
+     *
+     * @return el template de profesor
+     */
     @GetMapping("profesor")
     public String profesor() {
         return "profesor";
     }
 
+    /**
+     * Ruta donde se encuentra el endpoint para crear un alumno por el profesor
+     *
+     * @return el template del formulario del profesor para añadir un alumno
+     */
     @GetMapping(path = {"/createalumno"})
     public String crear(Model model) {
         CreateUsuarioDTO usuario = new CreateUsuarioDTO();
-        model.addAttribute("titulo", "Nuevo cliente");
+        model.addAttribute("titulo", "Nuevo alumno");
         model.addAttribute("usuario", usuario);
         return "añadirAlumno";
     }
-
+    /**
+     * Ruta donde se realiza la insercción del alumno en la base de datos
+     * @return se redirige hacia el template de los alumnos del profesor
+     */
     @PostMapping("save")
     public String guardar(@ModelAttribute CreateUsuarioDTO usuario) {
-        service.nuevoUsuario(usuario);
+        service.nuevoAlumno(usuario);
         return "redirect:listalumnos";
     }
 
@@ -127,6 +140,18 @@ public class LoginController {
         return "añadirAlumno";
     }
 
+    /**
+     * El profesor tiene la posibilidad de eliminar un alumno simplemente
+     * pinchando en el botón de eliminar
+     * @param id
+     * @return a la lista de alumnos del profesor
+     */
+    @GetMapping("/eliminar/{id}")
+    public String eliminarCliente(@PathVariable(value = "id") Long id) {
+        service.deleteUsuario(id);
+        return "redirect:/listalumnos";
+    }
+
     @GetMapping("findusername")
     public String findByUsername(@RequestBody String username, Model model) {
         Optional<Usuario> usuario = service.findUserByUsername(username);
@@ -134,7 +159,17 @@ public class LoginController {
         return "findusername";
 
     }
+    @GetMapping("examen")
+    public String examen() {
 
+        return "examen";
+
+    }
+    /**
+     * Ruta listalumnos
+     * @param model
+     * @return template con la tabla de todos los alumnos del profesor
+     */
     @GetMapping("listalumnos")
     public String listaAlumnos(Model model) {
         List<Usuario> alumnos = service.getAlumnos();

@@ -1,0 +1,14 @@
+com.moodle.project
+com.moodle.project.controller
+com.moodle.project.cors
+com.moodle.project.dto
+com.moodle.project.entity
+com.moodle.project.enums
+com.moodle.project.errors.usuarios
+com.moodle.project.mapper
+com.moodle.project.repository
+com.moodle.project.security
+com.moodle.project.security.jwt
+com.moodle.project.security.jwt.model
+com.moodle.project.security.password
+com.moodle.project.service

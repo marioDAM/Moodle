@@ -2,6 +2,10 @@ $(document).ready(function () {
 
 })
 
+/**
+ * Método que sirve al administrador para añadir un usuario con rol alumno
+ * @returns {Promise<void>}
+ */
 async function validate() {
     let dates = {};
     dates.fullname = document.getElementById("fullname").value
