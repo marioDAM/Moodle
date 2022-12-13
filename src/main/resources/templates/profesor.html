@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Learn More</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Learn More</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" th:href="@{/listalumnos}">Alumnos <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<br>
+<div class="card mb-3" style="max-width: 540px;">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="file/evento.jpg" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">Lengua Castellana</h5>
+                <p class="card-text">Esto es un resumen de todo lo que se va a ver sobre la materia a lo largo del curso</p>
+                <SCRIPT>document.write(document.lastModified )</SCRIPT>
+                <p class="card-text"><small class="text-muted">Last updated</small></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <footer th:fragment="footer" class="bg-dark text-center text-white fixed-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                  <div style="text-align: center;">  <p>© mario | Website created by Mario Valverde</p></div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
+</html>
